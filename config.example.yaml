@@ -1,0 +1,52 @@
+# genePipe configuration -- copy to config.yaml and edit.
+# Every value shown here is the built-in default.
+
+input: data/sample.fasta          # required: FASTA (.fa/.fasta/.gz)
+output_dir: results/run1          # where artefacts, logs and reports are written
+alphabet: dna                     # dna | protein
+seed: 20260929                    # random seed for the bootstrap
+resume: true                      # reuse cached stages whose inputs are unchanged
+
+# --- data cleaning ---------------------------------------------------------
+clean:
+  five_prime: ""                  # primer/adapter to strip from the 5' end
+  three_prime: ""                 # primer/adapter to strip from the 3' end
+  mask_ambiguous: true            # replace N/R/Y/... with N so distance models stay valid
+  min_length: 100                 # drop records shorter than this
+  deduplicate: true               # remove exact duplicate sequences
+
+# --- quality control -------------------------------------------------------
+qc:
+  min_length: 100
+  max_length: 100000
+  max_ambiguous_fraction: 0.05    # fail a record with >5% ambiguous bases
+  min_gc: 0.20
+  max_gc: 0.70
+  enforce: false                  # true = abort the run if any record fails QC
+
+# --- alignment -------------------------------------------------------------
+align:
+  prefer_external: true           # use FAMSA when installed, else the built-in aligner
+
+# --- variants --------------------------------------------------------------
+variants:
+  reference_id: null              # null = use the longest sequence as reference
+  distance_model: k2p             # k2p | p
+
+# --- statistics ------------------------------------------------------------
+stats:
+  alpha: 0.05                     # FDR threshold for association testing
+
+# --- phylogenetics ---------------------------------------------------------
+phylo:
+  enabled: true
+  bootstrap: 200                  # replicate alignments for clade support
+  distance_model: k2p
+
+# --- association testing (optional) ----------------------------------------
+# Map every sample id to a group; the group name starting with "case" is the
+# group of interest. Leave empty to skip the association stage.
+groups: {}
+# groups:
+#   case_01: case
+#   control_01: control

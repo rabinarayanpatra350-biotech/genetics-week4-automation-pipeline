@@ -1,0 +1,13 @@
+# genePipe runtime requirements.
+#
+# The pipeline itself has NO third-party dependencies: it uses only the Python
+# standard library, so `python -m genepipe ...` works on a bare interpreter.
+# The packages below are optional and only improve performance or ergonomics.
+#
+# Core (required): Python >= 3.10  -- no packages
+#
+# Optional extras:
+pyfamsa>=0.2      # faster, higher-quality multiple sequence alignment
+PyYAML>=6.0       # YAML configuration files (JSON works without it)
+pytest>=7.0       # running the test-suite
+matplotlib>=3.7   # generating the pipeline figures (figures/ scripts only)
